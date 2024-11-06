@@ -1,20 +1,9 @@
-  steps:
-  # Build the container image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-run-2:$COMMIT_SHA', '.']
-  # Push the container image to Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/hello-run-2:$COMMIT_SHA']
-  # Deploy container image to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args:
-    - 'run'
-    - 'deploy'
-    - 'hello-run-2'
-    - '--image'
-    - 'gcr.io/$PROJECT_ID/hello-run-2:$COMMIT_SHA'
-    - '--region'
-    - 'us-west2'
-  images:
-  - 'gcr.io/$PROJECT_ID/hello-run-2:$COMMIT_SHA'
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  script: |
+    docker build -t us-west2-docker.pkg.dev/marioarz-sandbox/hello-run/hello-image:tag2 .
+  automapSubstitutions: true
+images:
+- 'us-west2-docker.pkg.dev/marioarz-sandbox/hello-run/hello-image:tag2'
+options:
+  logging: CLOUD_LOGGING_ONLY
