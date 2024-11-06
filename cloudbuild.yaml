@@ -5,7 +5,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['run','deploy','cloudrunservice','--image','us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA','--region','us-west2','--platform','managed','--allow-unauthenticated'] 
+  args: ['run','deploy','hello-cloud-run','--image','us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA','--region','us-west2','--platform','managed','--allow-unauthenticated'] 
 images:
 - 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA'
 options:
