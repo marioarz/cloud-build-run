@@ -1,13 +1,14 @@
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA', '.']
+  args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA']
+  args: ['push', 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/gcloud'
   script: |
-    gcloud run deploy cloudrunservice --image us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA --region us-west2 --platform managed --allow-unauthenticated
+    echo 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA'
+    gcloud run deploy cloudrunservice --image 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA' --region us-west2 --platform managed --allow-unauthenticated
 images:
-- 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA'
+- 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$SHORT_SHA'
 options:
   logging: CLOUD_LOGGING_ONLY
