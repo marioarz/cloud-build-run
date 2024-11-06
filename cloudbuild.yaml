@@ -2,6 +2,11 @@ steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/gcloud'
+script: |
+  gcloud run deploy cloudrunservice --image us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA --region us-west2 --platform managed --allow-unauthenticated
 images:
 - 'us-west2-docker.pkg.dev/$PROJECT_ID/hello-run-2/hello-image:$COMMIT_SHA'
 options:
